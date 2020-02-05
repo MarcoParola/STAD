@@ -1,0 +1,19 @@
+-----------------
+| PREPROCESSING |
+-----------------
+
+A tweet is processed in order to be transormed in a vector of number.
+The prepocessing phase is compute using python, in particular nltk package (Natural Language ToolKit) and sklearn package (scikit-learn).
+
+1_ TOKENIZATION (nltk)
+    Split each words into a array
+    
+2_ APPLY A SYOP-WORLD FILTER (nltk)
+    This filter remove all conjunctions, preposition, articles, etc.
+
+3_ STEMMING (nltk)
+    Reduce the similar words to a common root
+
+4_ VECTORIZATION (sklearn)
+    Map the result of stemming phase, in a predefined vector counting the frequences of some prefixed keywords
+

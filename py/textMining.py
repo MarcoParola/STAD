@@ -1,56 +1,67 @@
 import nltk
 import csv
 import sys
+import numpy as np
 # nltk.download('stopwords')
 # nltk.download('punkt')
-from nltk.corpus import stopwords 
+from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, RegexpTokenizer, TreebankWordTokenizer
 from nltk.stem import SnowballStemmer
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
+
 def toString(array):
-	str1 = ''
-	for items in array:
-		#str1 = '\t'.join(item)
-		for item in items:
-			str1 = str1 + str(item) + '\t'
-		str1 = str1 + '\n'
-	return str1
+    str1 = ''
+    for items in array:
+        #str1 = '\t'.join(item)
+        for item in items:
+            str1 = str1 + str(item) + '\t'
+        str1 = str1 + '\n'
+    return str1
 
-# reading KEYWORDS file 
-relevant_stems = open("../utils/KEYWORDS.txt","r").read().splitlines()
 
+# reading KEYWORDS file
+relevant_stems = open("../utils/KEYWORDS.txt", "r").read().splitlines()
 tokenizer = RegexpTokenizer(r'\w+')
-stop_words = set(stopwords.words('italian')) 
+stop_words = set(stopwords.words('italian'))
 ss = SnowballStemmer('italian')
+
 final_array = []
+classes = []
 
 filecsv = sys.argv[1]
-with open(filecsv,'r', encoding='utf-8') as csvtwitter:
-	reader = csv.reader(csvtwitter)
-	for row in reader:
-	
-		example_sent = row[10]
+with open(filecsv, 'r', encoding='utf-8') as csvtwitter:
+    reader = csv.reader(csvtwitter)
+    for row in reader:
+        if row[11] != "class":
+            example_sent = row[10]
+            
+            # Save also the class
+            classes.append(row[11])
 
-		# Tokenization without punctuaction
-		word_tokens = tokenizer.tokenize(example_sent)
+            # Tokenization without punctuaction
+            word_tokens = tokenizer.tokenize(example_sent)
 
-		# Stop-word Filtering
-		filtered_sentence = [w for w in word_tokens if not w in stop_words] 
+            # Stop-word Filtering
+            filtered_sentence = [w for w in word_tokens if not w in stop_words]
 
-		# Stemming
-		final_sentence = [ss.stem(w) for w in filtered_sentence]
-			
-		# Stem Filtering
-		final_words = [w for w in final_sentence if w in relevant_stems] 
-		print(final_words)
+            # Stemming
+            final_sentence = [ss.stem(w) for w in filtered_sentence]
 
-		final_array.append(str(final_words))
-		
-		
+            # Stem Filtering
+            final_words = [w for w in final_sentence if w in relevant_stems]
+            print(final_words)
+
+            final_array.append(str(final_words))
+
+
 # Feature Representation
-fileOut = open("out.tsv","w")
+fileOut = open("fileFeatures1.tsv", "w")
+fileClasses = open("fileClasses1.tsv", "w")
 vectorizer = CountVectorizer()
 vectorizer.fit_transform(relevant_stems)
+x = vectorizer.transform(final_array).toarray()
 fileOut.write(toString(vectorizer.transform(final_array).toarray()))
+fileClasses.write(toString(classes))
 fileOut.close()
+fileClasses.close()
