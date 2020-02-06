@@ -1,3 +1,21 @@
+--------
+| DATA |
+--------
+
+ - RETRIEVE DATA
+The data, on which this application works, are tweets. In order to collect enought tweets, we scraped twitter, using twint.
+Twint is an advanced opensource Twitter scraping tool, written in python, thanks which it is very easy collect data, according to some criteria and store them in csv files.
+For more informations about twintproject visit the Github repository: https://github.com/twintproject .
+
+ - PREPARE DATA-SET
+After collectiong tweet, we assign each of them to a class, in order to prepare the dataset, thanks to which we can build some classifiers.
+We decided to map tweets in 3 classes:
+0 -> the tweet is not related to a weather condition
+1 -> the tweet is about rain or some weathet condition not dangerous
+2 -> the tweet is about some dangerous situation caused by the rain
+ 
+ 
+ 
 -----------------
 | PREPROCESSING |
 -----------------
@@ -9,11 +27,41 @@ The prepocessing phase is compute using python, in particular nltk package (Natu
     Split each words into a array
     
 2_ APPLY A SYOP-WORLD FILTER (nltk)
-    This filter remove all conjunctions, preposition, articles, etc.
+    This filter remove all conjunctions, preposition, articles, etc. This phase is strongly dependent on the language (italian in our case).
 
 3_ STEMMING (nltk)
     Reduce the similar words to a common root
 
 4_ VECTORIZATION (sklearn)
     Map the result of stemming phase, in a predefined vector counting the frequences of some prefixed keywords
+    
 
+ - FIND RELEVANT STEMMS
+
+    
+    
+----------------------
+| CLASSIFIER MODELLS |
+----------------------
+
+In this phase we built different classifiers, belong to sklearn package and we compared them.
+
+- DecisionTreeClassifier
+Simple to understand and to interpret.
+
+    < SCREEN >
+
+- GaussianNB
+Gaussian Naive Bayes can perform online updates to model parameters via partial_fit method.
+
+- SVC 
+Complexity O(n^2) where n is the number of samples, it is impractical beyond tens of thousands of samples.
+
+- RandomForestClassifier
+Random forests or random decision forests are an ensemble learning method for classification that operate by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes.
+
+- AdaBoostClassifier
+An AdaBoost is a meta-estimator that begins by fitting a classifier on the original dataset and then fits additional copies of the classifier on the same dataset but where the weights of incorrectly classified instances are adjusted such that subsequent classifiers focus more on difficult cases.
+
+- KNeighborsClassifier
+Classifier implementing the k-nearest neighbors vote. It is important find the best value of k.
