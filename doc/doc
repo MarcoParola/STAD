@@ -1,4 +1,11 @@
 --------
+| GOAL |
+--------
+
+Prevent and detect situations potentially dangerous, caused by a huge amount of rain, scraping twitter and analyzing each tweet, in order to discover some tweet containing informations related to theese critical situations.
+
+
+--------
 | DATA |
 --------
 
@@ -6,6 +13,7 @@
 The data, on which this application works, are tweets. In order to collect enought tweets, we scraped twitter, using twint.
 Twint is an advanced opensource Twitter scraping tool, written in python, thanks which it is very easy collect data, according to some criteria and store them in csv files.
 For more informations about twintproject visit the Github repository: https://github.com/twintproject .
+
 
  - PREPARE DATA-SET
 After collectiong tweet, we assign each of them to a class, in order to prepare the dataset, thanks to which we can build some classifiers.
@@ -42,7 +50,7 @@ The prepocessing phase is compute using python, in particular nltk package (Natu
 -----------------------------
 
 1_ FIND RELEVANT STEMS
-	Build the training set, searching tweets based on specific context-related words.
+	Build the training set, searching tweets based on specific context-related words: 'piove', 'alluvione', 'allerta', 'allagato'.
 	// Employ a collection of labeled tweets as training set.
 	Each tweet is processed through a tokenization phase, a stop-word filter and a stemming phase.
 	All the stems are united in one vector and are weighted using the IDF index (Inverse Document Frequency)

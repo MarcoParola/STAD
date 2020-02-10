@@ -11,8 +11,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from yellowbrick.classifier import ConfusionMatrix
-
+from sklearn.metrics import plot_confusion_matrix
 
 fileFeature = "fileFeatures1.tsv"
 fileClasses = "fileClasses1.tsv"
@@ -34,13 +33,14 @@ with open(fileFeature, 'r', encoding='utf-8') as features, open(fileClasses, 'r'
                 rowInt.append(int(row[i]))
         input.append(rowInt)
     
-    
+
 
 # CROSS VALIDATION, cv specify the number of iterations
 
 # DECISION TREE
 DecTree = DecisionTreeClassifier()
 print(cross_val_score(DecTree, input, output, cv = 6))
+
 
 fig = DecTree.fit(input, output)
 tree.plot_tree(fig)
@@ -77,30 +77,47 @@ model = DecTree.fit(input, output)
 
 
 
+
 # CONFUSION MATRIX
 x_train, x_test, y_train, y_test = train_test_split(input, output, test_size=0.25, random_state=42)
 
 
-cm = ConfusionMatrix(DecTree, classes=[0,1,2])
-
-cm.fit(x_train, y_train)
-
-cm.score(x_test, y_test)
-
-cm.show()
 
 
+DecTree.fit(x_train, y_train)
+disp = plot_confusion_matrix(DecTree, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+disp.ax_.set_title('Confusion Matrix')
+plt.show()
+
+
+bayess.fit(x_train, y_train)
+disp = plot_confusion_matrix(bayess, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+disp.ax_.set_title('Confusion Matrix')
+plt.show()
+
+
+svc.fit(x_train, y_train)
+disp = plot_confusion_matrix(svc, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+disp.ax_.set_title('Confusion Matrix')
+plt.show()
+
+
+knn.fit(x_train, y_train)
+disp = plot_confusion_matrix(knn, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+disp.ax_.set_title('Confusion Matrix')
+plt.show()
+
+
+ada.fit(x_train, y_train)
+disp = plot_confusion_matrix(ada, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+disp.ax_.set_title('Confusion Matrix')
+plt.show()
+
+
+randForest.fit(x_train, y_train)
+disp = plot_confusion_matrix(randForest, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+disp.ax_.set_title('Confusion Matrix')
+plt.show()
 
 
 
-'''
-y_predicted = model.predict(x_test)
-
-print(y_predicted)
-
-cm = confusion_matrix(y_test, y_predicted)
-
-print(cm)
-
-cm.show()
-'''
