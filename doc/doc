@@ -36,9 +36,26 @@ The prepocessing phase is compute using python, in particular nltk package (Natu
     Map the result of stemming phase, in a predefined vector counting the frequences of some prefixed keywords
     
 
- - FIND RELEVANT STEMMS
 
-    
+-----------------------------
+| SUPERVISED LEARNING STAGE |
+-----------------------------
+
+1_ FIND RELEVANT STEMS
+	Build the training set, searching tweets based on specific context-related words.
+	// Employ a collection of labeled tweets as training set.
+	Each tweet is processed through a tokenization phase, a stop-word filter and a stemming phase.
+	All the stems are united in one vector and are weighted using the IDF index (Inverse Document Frequency)
+	Then, each training tweet is represented as a vector of features, dimension equal to the number of stems, and the i-th feature is
+	calculated as the frequency of the i-th stem in the tweet per the weight of that stem.
+	
+	Finally each stem is evaluated by the Information Gain (IG) value between the corresponding feature and the possible class labels:
+		IG(C, Sq) = H(C) − H(C|Sq)
+	where Sq is the feature corresponding to stem sq, H(C) is the entropy of C, and H(C|Sq ) is the entropy of C after the observation 
+	of the feature Sq.
+	Then, the stems are ranked in descending order and F stems, with F ≤ Q, are selected among these.
+
+
     
 ----------------------
 | CLASSIFIER MODELLS |
