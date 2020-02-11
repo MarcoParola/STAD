@@ -7,6 +7,7 @@ import re
 import sys
 # nltk.download('stopwords')
 # nltk.download('punkt')
+from guess_language import guess_language
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, RegexpTokenizer, TreebankWordTokenizer
 from nltk.stem import SnowballStemmer
@@ -34,6 +35,10 @@ def FindURLs(string):
 	url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string) 
 	return url 
 
+def isItalian(string):
+	if guess_language(string) == 'it':
+		return True
+	return False
 
 """
 Function that returns an array with all the stems of the twitter in the file file_name
@@ -52,23 +57,24 @@ def preProcessing(file_name):
 			if row[11] != "class":
 				example_sent = row[10]
 				
-				# Delete all the urls in the tweet
-				for url in FindURLs(example_sent):
-					example_sent = example_sent.replace(url, '')
+				if isItalian(example_sent):
+					# Delete all the urls in the tweet
+					for url in FindURLs(example_sent):
+						example_sent = example_sent.replace(url, '')
 
-				# Save also the class
-				classes.append(row[11])
+					# Save also the class
+					classes.append(row[11])
 
-				# Tokenization without punctuaction
-				word_tokens = tokenizer.tokenize(example_sent)
+					# Tokenization without punctuaction
+					word_tokens = tokenizer.tokenize(example_sent)
 
-				# Stop-word Filtering
-				filtered_sentence = [w for w in word_tokens if not w in stop_words]
+					# Stop-word Filtering
+					filtered_sentence = [w for w in word_tokens if not w in stop_words]
 
-				# Stemming
-				final_sentence = [ss.stem(w) for w in filtered_sentence]
-				
-				final_array.append(final_sentence)
+					# Stemming
+					final_sentence = [ss.stem(w) for w in filtered_sentence]
+					
+					final_array.append(final_sentence)
 				
 	return final_array, classes
 	

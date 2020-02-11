@@ -1,4 +1,6 @@
+import csv
 import math
+import operator
 import sys
 import util	#file python with util functions
 from info_gain import info_gain
@@ -70,13 +72,18 @@ def info_gain_calculate(tf_tweets_stems, classes):
 	return info_gains
 	
 	
-def choose_relevant_stems(info_gains):
-	sort_ig_stems = sorted(info_gains.items(), key = lambda kv:(kv[1], kv[0]))
-	print(sort_ig_stems)
+def choose_relevant_stems(info_gains, limit):
+	# create the list of stems sorted by info_gain
+	sort_ig_stems = sorted(info_gains.items(), key=operator.itemgetter(1), reverse=True)
+	# return only the first 'limit' stems in the list (they are the most relevant)
+	rel_stems = sort_ig_stems[:limit]
+	for item in rel_stems:
+		print(item[0] +': '+ str(item[1]))
+	#print(rel_stems)
+	return rel_stems
 	
-	
-	
-
+"""
+# function to write in a file the summary of the stems for each tweet
 def create_stems_csv(file_name, tf_tweets_stems, classes):
 	fileOut = open(file_name, "w")
 	attributes_names = []
@@ -96,11 +103,23 @@ def create_stems_csv(file_name, tf_tweets_stems, classes):
 		i = i + 1
 		
 	fileOut.close()
+"""
 
-        
+def getFromFile(file_name):
+	relevant_stems = []
+	relevant_weights = []
+	with open(file_name, 'r', encoding='utf-8') as csvstems:
+		reader = csv.reader(csvstems)
+		for row in reader:
+			relevant_stems.append(row[0])
+			relevant_weights.append(row[1])
+			
+	return relevant_stems,relevant_weights
+
 """
 MAIN
 """
+
 final_sentences = []
 final_array = []
 tweets_stems = []
@@ -121,4 +140,8 @@ tf_tweets_stems = tf_idf_calculate(final_array, tweets_stems, classes)
 # Calculate info gain for each stem
 info_gains = info_gain_calculate(tf_tweets_stems, classes)
 # Choosing the relevant stems
-choose_relevant_stems(info_gains)
+rel_stems = choose_relevant_stems(info_gains, 30)
+fileOut = open("KEYWORDS.csv",'w')
+for item in rel_stems:
+	fileOut.write(item[0] +','+ str(item[1]) +'\n')
+fileOut.close()
