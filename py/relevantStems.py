@@ -1,19 +1,7 @@
-import csv
 import math
-import nltk
-import numpy as np
-import pandas as pd
 import sys
-# nltk.download('stopwords')
-# nltk.download('punkt')
+import util	#file python with util functions
 from info_gain import info_gain
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize, RegexpTokenizer, TreebankWordTokenizer
-from nltk.stem import SnowballStemmer
-from scipy.stats import entropy
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.feature_selection import mutual_info_classif
-
 
 def idf(stems):
 	idf_stems = {}
@@ -42,7 +30,18 @@ def tf_idf(idf_stems, tweet_stems):
 			tf_tweet_stems[stem] = val * idf_stems[stem]
 	
 	return tf_tweet_stems
+
+
+def tf_idf_calculate(final_array, tweets_stems, classes):
+	idf_stems = []
+	tf_tweets_stems = []
+	idf_stems = idf(final_array)
+	for tweet_stems in tweets_stems:
+		tf_tweets_stems.append( tf_idf(idf_stems, tweet_stems) )
 	
+	#print(tf_tweets_stems)
+	#create_stems_csv("stems_table.tsv",tf_tweets_stems, classes)
+	return tf_tweets_stems
 
 def info_gain_calculate(tf_tweets_stems, classes):
 	keys = []
@@ -70,6 +69,13 @@ def info_gain_calculate(tf_tweets_stems, classes):
 		
 	return info_gains
 	
+	
+def choose_relevant_stems(info_gains):
+	sort_ig_stems = sorted(info_gains.items(), key = lambda kv:(kv[1], kv[0]))
+	print(sort_ig_stems)
+	
+	
+	
 
 def create_stems_csv(file_name, tf_tweets_stems, classes):
 	fileOut = open(file_name, "w")
@@ -79,7 +85,7 @@ def create_stems_csv(file_name, tf_tweets_stems, classes):
 	for K in tf_tweets_stems[0].keys():
 		attributes_names.append(K)
 	attributes_names.append( "class" )
-	fileOut.write( FromArrayToString(attributes_names) )
+	fileOut.write( util.FromArrayToString(attributes_names) )
 	
 	for tweet_stems in tf_tweets_stems:
 		values = []
@@ -90,21 +96,12 @@ def create_stems_csv(file_name, tf_tweets_stems, classes):
 		i = i + 1
 		
 	fileOut.close()
-	
-	
-def FromArrayToString(array):
-	s = ''
-	for value in array:
-		s = s + str(value) + '\t'
-	s = s + '\n'
-	return s
+
         
 """
 MAIN
 """
-tokenizer = RegexpTokenizer(r'\w+')
-stop_words = set(stopwords.words('italian')) 
-ss = SnowballStemmer('italian')
+final_sentences = []
 final_array = []
 tweets_stems = []
 tf_tweets_stems = []
@@ -112,32 +109,16 @@ classes = []
 info_gains = []
 
 filecsv = sys.argv[1]
-with open(filecsv,'r') as csvtwitter:
-	reader = csv.reader(csvtwitter)
-	for row in reader:
-		if row[10] != "tweet":
-			example_sent = row[10]
-			classes.append( row[11] )
-			
-			# Tokenization without punctuaction
-			word_tokens = tokenizer.tokenize(example_sent)
-			
-			# Stop-word Filtering
-			filtered_sentence = [w for w in word_tokens if not w in stop_words] 
+final_sentences, classes = util.preProcessing(filecsv)
 
-			# Stemming
-			final_sentence = [ss.stem(w) for w in filtered_sentence]
-			
-			for stem in final_sentence:
-				final_array.append(stem)
-			
-			tweets_stems.append(final_sentence)
-			
-idf_stems = idf(final_array)
-for tweet_stems in tweets_stems:
-	tf_tweets_stems.append( tf_idf(idf_stems, tweet_stems) )
-#print(tf_tweets_stems)
-#create_stems_csv("stems_table.tsv",tf_tweets_stems, classes)
+for final_sentence in final_sentences:			
+	for stem in final_sentence:
+		final_array.append(stem)
+	tweets_stems.append(final_sentence)
+
+# Calculate tf_idf index for each stem found			
+tf_tweets_stems = tf_idf_calculate(final_array, tweets_stems, classes)
+# Calculate info gain for each stem
 info_gains = info_gain_calculate(tf_tweets_stems, classes)
-print(sorted(info_gains.items(), key = lambda kv:(kv[1], kv[0])))
-
+# Choosing the relevant stems
+choose_relevant_stems(info_gains)
