@@ -11,11 +11,39 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import plot_confusion_matrix
+from sklearn.metrics import plot_confusion_matrix, accuracy_score, f1_score
 
 fileFeature = "fileFeatures1.tsv"
 fileClasses = "fileClasses1.tsv"
 
+
+
+'''
+    This function is used to evaluate a classifier given as parametr.
+    
+    It computes:
+    - Cross-validation
+    - Accurancy
+    - F-score
+'''
+def evaluate_classifier(classifier):
+    print(cross_val_score(classifier, input, output, cv = cross_validation_iterations))
+
+    classifier.fit(x_train, y_train)
+    disp = plot_confusion_matrix(classifier, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+    disp.ax_.set_title('Confusion Matrix')
+    plt.show()
+
+    y_predicetd = classifier.predict(x_test)
+    accurancy = accuracy_score(y_test, y_predicetd)
+    f_score = f1_score(y_test, y_predicetd, average='macro',  pos_label=3)
+    print('accurancy : ' + str(accurancy))
+    print('f_score : ' + str(f_score) + '\n')
+
+
+
+
+# PREPARE DATA
 input = []
 output = []
 
@@ -25,7 +53,6 @@ with open(fileFeature, 'r', encoding='utf-8') as features, open(fileClasses, 'r'
     for row in classReader:
         output.append(int(row[0]))
         
-        
     for row in featureReader:
         rowInt = []
         for i in range(0, len(row)): 
@@ -33,91 +60,48 @@ with open(fileFeature, 'r', encoding='utf-8') as features, open(fileClasses, 'r'
                 rowInt.append(int(row[i]))
         input.append(rowInt)
     
-
-
-# CROSS VALIDATION, cv specify the number of iterations
-
-# DECISION TREE
-DecTree = DecisionTreeClassifier()
-print(cross_val_score(DecTree, input, output, cv = 6))
-
-
-fig = DecTree.fit(input, output)
-tree.plot_tree(fig)
-plt.show()
-
-# BAYESS
-bayess = GaussianNB()
-print(cross_val_score(bayess, input, output, cv = 6))
-
-
-# SVC
-svc = SVC()
-print(cross_val_score(svc, input, output, cv = 6))
-
-
-# K-NN (set k)
-knn = KNeighborsClassifier(5)
-print(cross_val_score(knn, input, output, cv = 6))
-
-
-# ADABOOST
-ada = AdaBoostClassifier()
-print(cross_val_score(ada, input, output, cv = 6))
-
-
-# RANDOM FOREST
-randForest = RandomForestClassifier()
-print(cross_val_score(randForest, input, output, cv = 6))
-
-
-
-# TRAINING AND PREDICTION 
-model = DecTree.fit(input, output)
-
-
-
-
-# CONFUSION MATRIX
+# SPLIT DATA IN TRAININGSET AND TESTSET 
 x_train, x_test, y_train, y_test = train_test_split(input, output, test_size=0.25, random_state=42)
 
 
+# CROSS VALIDATION PARAMETR
+cross_validation_iterations = 6
 
 
-DecTree.fit(x_train, y_train)
-disp = plot_confusion_matrix(DecTree, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
-disp.ax_.set_title('Confusion Matrix')
-plt.show()
+
+# --------------- DECISION TREE ---------------
+DecTree = DecisionTreeClassifier()
+evaluate_classifier(DecTree)
 
 
-bayess.fit(x_train, y_train)
-disp = plot_confusion_matrix(bayess, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
-disp.ax_.set_title('Confusion Matrix')
-plt.show()
+
+# --------------- BAYESS ---------------
+bayess = GaussianNB()
+evaluate_classifier(bayess)
 
 
-svc.fit(x_train, y_train)
-disp = plot_confusion_matrix(svc, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
-disp.ax_.set_title('Confusion Matrix')
-plt.show()
+
+# --------------- SVC ---------------
+svc = SVC()
+evaluate_classifier(svc)
 
 
-knn.fit(x_train, y_train)
-disp = plot_confusion_matrix(knn, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
-disp.ax_.set_title('Confusion Matrix')
-plt.show()
+
+# --------------- K-NN ---------------
+k_neighbor = 5
+knn = KNeighborsClassifier(k_neighbor)
+evaluate_classifier(knn)
 
 
-ada.fit(x_train, y_train)
-disp = plot_confusion_matrix(ada, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
-disp.ax_.set_title('Confusion Matrix')
-plt.show()
+
+# --------------- ADABOOST ---------------
+ada = AdaBoostClassifier()
+evaluate_classifier(ada)
 
 
-randForest.fit(x_train, y_train)
-disp = plot_confusion_matrix(randForest, x_test, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
-disp.ax_.set_title('Confusion Matrix')
-plt.show()
 
+# --------------- RANDOM FOREST ---------------
+randForest = RandomForestClassifier()
+evaluate_classifier(randForest)
 
 
