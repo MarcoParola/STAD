@@ -51,17 +51,17 @@ with open(fileFeature, 'r', encoding='utf-8') as features, open(fileClasses, 'r'
     featureReader = csv.reader(features, delimiter = '\t')
     classReader = csv.reader(classes, delimiter = '\t')
     for row in classReader:
-        output.append(int(row[0]))
+        output.append(float(row[0]))
         
     for row in featureReader:
         rowInt = []
         for i in range(0, len(row)): 
             if row[i] != '':
-                rowInt.append(int(row[i]))
+                rowInt.append(float(row[i]))
         input.append(rowInt)
     
 # SPLIT DATA IN TRAININGSET AND TESTSET 
-x_train, x_test, y_train, y_test = train_test_split(input, output, test_size=0.25, random_state=42)
+x_train, x_test, y_train, y_test = train_test_split(input, output, test_size=0.15, random_state=42)
 
 
 # CROSS VALIDATION PARAMETR
