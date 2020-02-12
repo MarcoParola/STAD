@@ -19,25 +19,29 @@ final_sentences, classes = util.preProcessing(filecsv)
 # Stem Filtering
 for final_sentence in final_sentences:
 	final_words = []
+	final_words = [w for w in final_sentence if w in relevant_stems]
+	"""
 	for w in final_sentence:
 		i = 0
 		while i < len(relevant_stems):
 			if w == relevant_stems[i]:
 				final_words.append(relevant_weights[i])
 			i = i + 1
+	
     	#print(final_words)
-
+	"""
 	final_array.append(str(final_words))
-print(final_array)
+#print(final_array)
 
 
 # Feature Representation
 fileOut = open("fileFeatures1.tsv", "w")
 fileClasses = open("fileClasses1.tsv", "w")
-vectorizer = CountVectorizer()
-vectorizer.fit_transform(relevant_stems)
+vectorizer = TfidfVectorizer(use_idf=True)
+vectorizer.fit_transform(relevant_stems,relevant_weights)
 x = vectorizer.transform(final_array).toarray()
-fileOut.write( util.FromMatrixToString(vectorizer.transform(final_array).toarray()) )
+print(util.FromMatrixToString(x))
+fileOut.write(util.FromMatrixToString(x))
 fileClasses.write( util.FromMatrixToString(classes) )
 fileOut.close()
 fileClasses.close()

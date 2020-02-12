@@ -27,7 +27,7 @@ def FromMatrixToString(matrix):
     for items in matrix:
         #str1 = '\t'.join(item)
         for item in items:
-            str1 = str1 + str(item) + '\t'
+            str1 = str1 + str(float(item)) + '\t'
         str1 = str1 + '\n'
     return str1
 

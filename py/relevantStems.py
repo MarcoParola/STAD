@@ -8,7 +8,7 @@ from info_gain import info_gain
 def idf(stems):
 	idf_stems = {}
 	N = len(stems)
-	print(str(N)+'\n')
+	#print(str(N)+'\n')
 	
 	idf_stems = { stem:0 for stem in stems if not stem in idf_stems.keys() }
 	
@@ -68,7 +68,7 @@ def info_gain_calculate(tf_tweets_stems, classes):
 		"""
 		i = i + 1
 		j = 0
-		
+	
 	return info_gains
 	
 	
@@ -77,9 +77,11 @@ def choose_relevant_stems(info_gains, limit):
 	sort_ig_stems = sorted(info_gains.items(), key=operator.itemgetter(1), reverse=True)
 	# return only the first 'limit' stems in the list (they are the most relevant)
 	rel_stems = sort_ig_stems[:limit]
+	"""
 	for item in rel_stems:
 		print(item[0] +': '+ str(item[1]))
 	#print(rel_stems)
+	"""
 	return rel_stems
 	
 """
@@ -112,7 +114,7 @@ def getFromFile(file_name):
 		reader = csv.reader(csvstems)
 		for row in reader:
 			relevant_stems.append(row[0])
-			relevant_weights.append(row[1])
+			relevant_weights.append(float(row[1]))
 			
 	return relevant_stems,relevant_weights
 
