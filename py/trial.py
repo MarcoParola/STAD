@@ -5,24 +5,16 @@ import numpy as np
 import pandas as pd
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
-from nltk.tokenize import word_tokenize, RegexpTokenizer, TreebankWordTokenizer
-from sklearn.datasets import load_files
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.metrics import plot_confusion_matrix, f1_score
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB, GaussianNB
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
 from sklearn import tree
 from sklearn import metrics
 
-"""
-stopwords = []
-with open("stopwords.txt",'r') as sw:
-	reader = csv.reader(sw)
-	for row in reader:
-		stopwords.append(row[0])
-"""
 
 dataset = pd.read_csv("fileFeatures1.csv",sep='\t',names=['tweets','target'])
 #print(dataset.head(10))
@@ -33,13 +25,10 @@ print("class 2 len: " + str(len(dataset[dataset.target == 2])) + '\n')
 
 
 #splitting Training and Test set
-X_train, X_test, y_train, y_test = train_test_split(dataset.tweets, dataset.target, test_size=0.4)
+X_train, X_test, y_train, y_test = train_test_split(dataset.tweets, dataset.target, test_size=0.3)
 
-"""
-def stemming(doc):
-    return (stemmer.stem(w) for w in analyzer(doc))
-"""
 
+# ridefinition of CountVectorizer with stemming function
 italian_stemmer = SnowballStemmer('italian')
 class StemmedCountVectorizer(CountVectorizer):
     def build_analyzer(self):
@@ -57,16 +46,20 @@ X_train_counts = count_vect.fit_transform(X_train)
 tfidf_transformer = TfidfTransformer(smooth_idf=True,use_idf=True)# include calculation of TFs (frequencies) 
 X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 
+"""
 # print idf values
 df_idf = pd.DataFrame(tfidf_transformer.idf_, index=count_vect.get_feature_names(),columns=["idf_weights"])
 # sort ascending
-#print(df_idf.sort_values(by=['idf_weights'],ascending=True).head(30))
+print(df_idf.sort_values(by=['idf_weights'],ascending=True).head(30))
+"""
 
 # TF-IDF extraction on test set
 X_test_counts = count_vect.transform(X_test)#tokenization and word counting
 X_test_tfidf = tfidf_transformer.transform(X_test_counts)#feature extraction
 
 """
+# print info_gain of first N documents' features
+
 feature_names = count_vect.get_feature_names()
 #print the scores
 i = 0
@@ -80,77 +73,56 @@ while i < 1:
 print('')
 """
 
+def evaluate_classifier(clf):
+	clf.fit(X_train_tfidf, y_train)
+	#Evaluation on test set
+	predicted = clf.predict(X_test_tfidf)#prediction
+	#Extracting statistics and metrics
+	accuracy=np.mean(predicted == y_test)#accuracy extreaction
+	print('accuracy : ' + str(accuracy))
+
+	f_score = f1_score(y_test, predicted, average='macro')
+	print('f_score : ' + str(f_score) + '\n')
+
+	disp = plot_confusion_matrix(clf, X_test_tfidf, y_test, display_labels=[0,1,2], cmap=plt.cm.Blues, normalize='true')
+	disp.ax_.set_title('Confusion Matrix')
+	plt.show()
+
 # --------------- BAYESS ---------------
 #Training the first classifier
 #clf = GaussianNB().fit(X_train_tfidf, y_train)
-clf = MultinomialNB().fit(X_train_tfidf, y_train)
-
-#Evaluation on test set
-predicted = clf.predict(X_test_tfidf)#prediction
-#Extracting statistics and metrics
-accuracy=np.mean(predicted == y_test)#accuracy extreaction
-print('Accuracy NB:')
-print(accuracy)
+clf = MultinomialNB()
+print('NB:')
+evaluate_classifier(clf)
 
 # --------------- SVC ---------------
 #Training the second classifier
 clf2 = svm.LinearSVC()
-clf2.fit(X_train_tfidf, y_train)
-
-#Evaluation on test set
-predicted2 = clf2.predict(X_test_tfidf)#prediction
-#Extracting statistics and metrics
-accuracy=np.mean(predicted2 == y_test)#accuracy extreaction
-print('Accuracy SVM:')
-print(accuracy)
+print('SVM:')
+evaluate_classifier(clf2)
 
 # --------------- DECISION TREE ---------------
 #Training the third classifier
 clf3 = tree.DecisionTreeClassifier()
-clf3.fit(X_train_tfidf, y_train)
-
-#Evaluation on test set
-predicted3 = clf3.predict(X_test_tfidf)#prediction
-#Extracting statistics and metrics
-accuracy=np.mean(predicted3 == y_test)#accuracy extreaction
-print('Accuracy Decision Tree:')
-print(accuracy)
+print('Decision Tree:')
+evaluate_classifier(clf3)
 
 # --------------- K-NN ---------------
 #Training the forth classifier
 k_neighbor = 5
 clf4 = KNeighborsClassifier(k_neighbor)
-clf4.fit(X_train_tfidf, y_train)
-
-#Evaluation on test set
-predicted4 = clf4.predict(X_test_tfidf)#prediction
-#Extracting statistics and metrics
-accuracy=np.mean(predicted4 == y_test)#accuracy extreaction
-print('Accuracy k-NN:')
-print(accuracy)
+print('k-NN:')
+evaluate_classifier(clf4)
 
 # --------------- ADABOOST ---------------
 #Training the fifth classifier
 clf5 = AdaBoostClassifier()
-clf5.fit(X_train_tfidf, y_train)
-
-#Evaluation on test set
-predicted5 = clf5.predict(X_test_tfidf)#prediction
-#Extracting statistics and metrics
-accuracy=np.mean(predicted5 == y_test)#accuracy extreaction
-print('Accuracy Adaboost:')
-print(accuracy)
+print('Adaboost:')
+evaluate_classifier(clf5)
 
 # --------------- RANDOM FOREST ---------------
 #Training the sixth classifier
 clf6 = RandomForestClassifier()
-clf6.fit(X_train_tfidf, y_train)
-
-#Evaluation on test set
-predicted6 = clf6.predict(X_test_tfidf)#prediction
-#Extracting statistics and metrics
-accuracy=np.mean(predicted6 == y_test)#accuracy extreaction
-print('Accuracy Random Forest:')
-print(accuracy)
-
+print('Random Forest:')
+evaluate_classifier(clf6)
 
