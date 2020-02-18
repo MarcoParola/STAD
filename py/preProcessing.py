@@ -17,8 +17,10 @@ from sklearn.feature_selection import mutual_info_classif
 
 
 def FindURLs(string): 
-	url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string) 
-	return url 
+	url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)
+	pics = re.findall('pic.twitter.com/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',string)
+	return url + pics
+
 
 def isItalian(string):
 	if guess_language(string) == 'it':
@@ -42,6 +44,8 @@ def preProcessing(file_name):
 					# Delete all the urls in the tweet
 					for url in FindURLs(tweet):
 						tweet = tweet.replace(url, '')
+					
+					
 					
 					tweet = tweet.replace('\n',' ')
 					
