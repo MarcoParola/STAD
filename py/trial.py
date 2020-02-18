@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import nltk
 import pandas as pd
+from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import word_tokenize, RegexpTokenizer, TreebankWordTokenizer
 from sklearn.datasets import load_files
@@ -13,20 +14,21 @@ from sklearn import svm
 from sklearn import tree
 from sklearn import metrics
 
-
+"""
 stopwords = []
+with open("stopwords.txt",'r') as sw:
+	reader = csv.reader(sw)
+	for row in reader:
+		stopwords.append(row[0])
+"""
 
 dataset = pd.read_csv("fileFeatures1.csv",sep='\t',names=['tweets','target'])
 #print(dataset.head(10))
 print("dataset len: " + str(len(dataset)))
 print("class 0 len: " + str(len(dataset[dataset.target == 0])))
 print("class 1 len: " + str(len(dataset[dataset.target == 1])))
-print("class 2 len: " + str(len(dataset[dataset.target == 2])))
+print("class 2 len: " + str(len(dataset[dataset.target == 2])) + '\n')
 
-with open("stopwords.txt",'r') as sw:
-	reader = csv.reader(sw)
-	for row in reader:
-		stopwords.append(row[0])
 
 #splitting Training and Test set
 X_train, X_test, y_train, y_test = train_test_split(dataset.tweets, dataset.target, test_size=0.4)
@@ -42,7 +44,7 @@ class StemmedCountVectorizer(CountVectorizer):
         return lambda doc: ([italian_stemmer.stem(w) for w in analyzer(doc)])
 
 #counting the word occurrences 
-count_vect = StemmedCountVectorizer(min_df=2, analyzer="word", stop_words=stopwords)
+count_vect = StemmedCountVectorizer(min_df=2, analyzer="word", stop_words = set(stopwords.words('italian')))
 #count_vect = CountVectorizer(stop_words=stopwords,analyzer=stemming,min_df=2) #include tokenization and stopword filtering, check parameters
 X_train_counts = count_vect.fit_transform(X_train)
 #extracted tokens
@@ -62,12 +64,17 @@ X_test_counts = count_vect.transform(X_test)#tokenization and word counting
 X_test_tfidf = tfidf_transformer.transform(X_test_counts)#feature extraction
 
 feature_names = count_vect.get_feature_names()
-#get tfidf vector for first document
-first_document_vector=X_test_tfidf[0]
+
  
 #print the scores
-df = pd.DataFrame(first_document_vector.T.todense(), index=feature_names, columns=["tfidf"])
-print(df.sort_values(by=["tfidf"],ascending=False).head(30))
+i = 0
+while i < 1:
+	print('')
+	#get tfidf vector for first document
+	first_document_vector=X_test_tfidf[i]
+	df = pd.DataFrame(first_document_vector.T.todense(), index=feature_names, columns=["tfidf"])
+	print(df.sort_values(by=["tfidf"],ascending=False).head(10))
+	i = i+1
 
 
 #Training the second classifier
