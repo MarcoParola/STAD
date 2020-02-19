@@ -31,7 +31,7 @@ def isItalian(string):
 Function that returns an array with all the stems of the twitter in the file file_name
 """
 def preProcessing(file_name):
-	fileOut = open("fileFeatures1.csv", "w")
+	fileOut = open("dataset.csv", "w")
 	
 	with open(file_name, 'r', encoding='utf-8',) as csvtwitter:
 		reader = csv.reader(csvtwitter)

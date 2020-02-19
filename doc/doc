@@ -4,6 +4,8 @@
 
 Prevent and detect situations potentially dangerous, caused by a huge amount of rain, scraping twitter and analyzing each tweet, in order to discover some tweet containing informations related to theese critical situations.
 
+We analyze data and develop the application using Python and Sklearn library.
+
 
 --------
 | DATA |
@@ -15,78 +17,103 @@ Twint is an advanced opensource Twitter scraping tool, written in python, thanks
 For more informations about twintproject visit the Github repository: https://github.com/twintproject .
 
 
+    twint -s <WORDS> -o tweetPioggia.csv --csv
+
+    <WORDS> : 'pioggia', 'piove', 'allerta', 'alluvione'
+
+
+Examples:
+    1 - "Ora piove a dirotto per la gioia di yuki che non può andare al parco"
+    2 - "Ma dai, ma piove sul bagnato! Povera Antonella!!!!! #GFVIP"
+
+    
+Moreover we add to the dataset some posts randomly downloaded, not related to any weather phenomenons (without specifying any keywords).
+
+
  - PREPARE DATA-SET
-After collectiong tweet, we assign each of them to a class, in order to prepare the dataset, thanks to which we can build some classifiers.
+After collectiong tweet (894), we assign each of them to a class, in order to prepare the dataset, thanks to which we can build some classifiers.
 We decided to map tweets in 3 classes:
-0 -> the tweet is not related to a weather condition
-1 -> the tweet is about rain or some weathet condition not dangerous
-2 -> the tweet is about some dangerous situation caused by the rain
+0 -> the tweet is not related to a weather condition (368)
+1 -> the tweet is about rain or some weathet condition not dangerous (224)
+2 -> the tweet is about some dangerous situation caused by the rain (302)
  
- 
- 
+    
 -----------------
 | PREPROCESSING |
 -----------------
 
-A tweet is processed in order to be transormed in a vector of number.
-The prepocessing phase is compute using python, in particular nltk package (Natural Language ToolKit) and sklearn package (scikit-learn).
+In this phase we delete some tweets, in order to manage only the italian tweets.
+Moreover we clean text of each tweet removing an eventually URL.
 
-1_ TOKENIZATION (nltk)
-    Split each words into a array
+
+---------------
+| TEXT MINING |
+---------------
+
+After preprocessing phase we follow the standard steps to manage text:
+- tokenization and stemming
+- words selection by tf-idf
+- classification and evaluation
+
+1_ TOKENIZATION AND STEMMING
+    After stratified splitting the dataset in tranining and test set, we tokenize each tweet and we apply an italian stemming filter, in order to find more general words.
     
-2_ APPLY A SYOP-WORLD FILTER (nltk)
-    This filter remove all conjunctions, preposition, articles, etc. This phase is strongly dependent on the language (italian in our case).
+        italian_stemmer = SnowballStemmer('italian')
+        class StemmedCountVectorizer(CountVectorizer):
+            def build_analyzer(self):
+                analyzer = super(StemmedCountVectorizer, self).build_analyzer()
+                return lambda doc: ([italian_stemmer.stem(w) for w in analyzer(doc)])
 
-3_ STEMMING (nltk)
-    Reduce the similar words to a common root
+                
+                
+2_ FIND RELEVANT STEMS
+    All the stems are united in one vector and are weighted using the IDF index (Inverse Document Frequency)
+    Then, each training tweet is represented as a vector of features, dimension equal to the number of stems, and the i-th feature is
+    calculated as the frequency of the i-th stem in the tweet per the weight of that stem.
 
-4_ VECTORIZATION (sklearn)
-    Map the result of stemming phase, in a predefined vector counting the frequences of some prefixed keywords
+    Finally each stem is evaluated by the Information Gain (IG) value between the corresponding feature and the possible class labels:
+        IG(C, Sq) = H(C) − H(C|Sq)
+    where Sq is the feature corresponding to stem sq, H(C) is the entropy of C, and H(C|Sq ) is the entropy of C after the observation 
+    of the feature Sq.
+    Then, the stems are ranked in descending order and F stems, with F ≤ Q, are selected among these.
     
-
-
------------------------------
-| SUPERVISED LEARNING STAGE |
------------------------------
-
-1_ FIND RELEVANT STEMS
-	Build the training set, searching tweets based on specific context-related words: 'piove', 'alluvione', 'allerta', 'allagato'.
-	// Employ a collection of labeled tweets as training set.
-	Each tweet is processed through a tokenization phase, a stop-word filter and a stemming phase.
-	All the stems are united in one vector and are weighted using the IDF index (Inverse Document Frequency)
-	Then, each training tweet is represented as a vector of features, dimension equal to the number of stems, and the i-th feature is
-	calculated as the frequency of the i-th stem in the tweet per the weight of that stem.
-	
-	Finally each stem is evaluated by the Information Gain (IG) value between the corresponding feature and the possible class labels:
-		IG(C, Sq) = H(C) − H(C|Sq)
-	where Sq is the feature corresponding to stem sq, H(C) is the entropy of C, and H(C|Sq ) is the entropy of C after the observation 
-	of the feature Sq.
-	Then, the stems are ranked in descending order and F stems, with F ≤ Q, are selected among these.
-
-
+        tfidf_transformer = TfidfTransformer(smooth_idf=True,use_idf=True)# include calculation of TFs (frequencies) 
+        X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+        
+        
+3_ CLASSIFICATION
+    After the tfidf_transformer fitting phase we use it to trasnform the test set and we build and test different classifiers and compute different metrics to compare them (accurancy, f-score, confusion-matrix):
     
-----------------------
-| CLASSIFIER MODELLS |
-----------------------
+    - DecisionTreeClassifier
+        
+        < SCREEN >
 
-In this phase we built different classifiers, belong to sklearn package and we compared them.
+    - GaussianNB
+        
+        < SCREEN >
 
-- DecisionTreeClassifier
-Simple to understand and to interpret.
+    - SVC 
+        
+        < SCREEN >
+
+    - RandomForestClassifier
+    
+        < SCREEN >
+
+    - AdaBoostClassifier
+        
+        < SCREEN >
+
+    - KNeighborsClassifier
+        
+        < SCREEN >
+        
+
+
+--------------------
+| CROSS VALIDATION |
+--------------------
+
+At the end we execute a 10 fold cross validation.
 
     < SCREEN >
-
-- GaussianNB
-Gaussian Naive Bayes can perform online updates to model parameters via partial_fit method.
-
-- SVC 
-Complexity O(n^2) where n is the number of samples, it is impractical beyond tens of thousands of samples.
-
-- RandomForestClassifier
-Random forests or random decision forests are an ensemble learning method for classification that operate by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes.
-
-- AdaBoostClassifier
-An AdaBoost is a meta-estimator that begins by fitting a classifier on the original dataset and then fits additional copies of the classifier on the same dataset but where the weights of incorrectly classified instances are adjusted such that subsequent classifiers focus more on difficult cases.
-
-- KNeighborsClassifier
-Classifier implementing the k-nearest neighbors vote. It is important find the best value of k.

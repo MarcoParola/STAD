@@ -36,13 +36,13 @@ def preProcessing(file_name):
 	
 	with open(file_name, 'r', encoding='utf-8',) as csvtwitter, open("fileFeatures1.csv", "w") as fileOut:
 		reader = csv.reader(csvtwitter)
-		writer = csv.writer(fileOut)
+		#writer = csv.writer(fileOut)
 		for row in reader:
 			if row[10] != "tweet":
 				tweet = row[10]
 				
 				if isItalian(tweet):
-					"""
+					
 					# Delete all the urls in the tweet
 					for url in FindURLs(tweet):
 						tweet = tweet.replace(url, '')
@@ -51,8 +51,8 @@ def preProcessing(file_name):
 					
 					if tweet != '':
 						fileOut.write('\"'+ tweet + '\"\n')
-					"""
-					writer.writerow(row)
+					
+					#writer.writerow(row)
 	
 				
 	fileOut.close()
