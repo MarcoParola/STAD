@@ -19,7 +19,7 @@ For more informations about twintproject visit the Github repository: https://gi
 
     twint -s <WORDS> -o tweetPioggia.csv --csv
 
-    <WORDS> : 'pioggia', 'piove', 'allerta', 'alluvione'
+    <WORDS> : 'pioggia', 'piove', 'allerta', 'meteo', 'alluvione', 'maltempo'
 
 
 Examples:
