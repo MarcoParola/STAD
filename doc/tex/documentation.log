@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.5)  19 FEB 2020 17:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.5)  19 FEB 2020 18:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -443,24 +443,57 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \openout3 = `documentation-frn.tex'.
 
 )
+(/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen106
+\captionmargin@=\dimen107
+\captionwidth=\dimen108
+\caption@tempdima=\dimen109
+\caption@indent=\dimen110
+\caption@parindent=\dimen111
+\caption@hangindent=\dimen112
+)
+\c@ContinuedFloat=\count89
+)
+\c@KVtest=\count90
+\sf@farskip=\skip43
+\sf@captopadj=\dimen113
+\sf@capskip=\skip44
+\sf@nearskip=\skip45
+\c@subfigure=\count91
+\c@subfigure@save=\count92
+\c@lofdepth=\count93
+\c@subtable=\count94
+\c@subtable@save=\count95
+\c@lotdepth=\count96
+\sf@top=\skip46
+\sf@bottom=\skip47
+)
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count89
+\lst@mode=\count97
 \lst@gtempboxa=\box28
 \lst@token=\toks18
-\lst@length=\count90
-\lst@currlwidth=\dimen106
-\lst@column=\count91
-\lst@pos=\count92
-\lst@lostspace=\dimen107
-\lst@width=\dimen108
-\lst@newlines=\count93
-\lst@lineno=\count94
-\lst@maxwidth=\dimen109
+\lst@length=\count98
+\lst@currlwidth=\dimen114
+\lst@column=\count99
+\lst@pos=\count100
+\lst@lostspace=\dimen115
+\lst@width=\dimen116
+\lst@newlines=\count101
+\lst@lineno=\count102
+\lst@maxwidth=\dimen117
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-\c@lstnumber=\count95
-\lst@skipnumbers=\count96
+\c@lstnumber=\count103
+\lst@skipnumbers=\count104
 \lst@framebox=\box29
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
@@ -492,35 +525,18 @@ Package: geometry 2010/09/12 v5.6 Page Geometry
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-\Gm@cnth=\count97
-\Gm@cntv=\count98
-\c@Gm@tempcnt=\count99
-\Gm@bindingoffset=\dimen110
-\Gm@wd@mp=\dimen111
-\Gm@odd@mp=\dimen112
-\Gm@even@mp=\dimen113
-\Gm@layoutwidth=\dimen114
-\Gm@layoutheight=\dimen115
-\Gm@layouthoffset=\dimen116
-\Gm@layoutvoffset=\dimen117
+\Gm@cnth=\count105
+\Gm@cntv=\count106
+\c@Gm@tempcnt=\count107
+\Gm@bindingoffset=\dimen118
+\Gm@wd@mp=\dimen119
+\Gm@odd@mp=\dimen120
+\Gm@even@mp=\dimen121
+\Gm@layoutwidth=\dimen122
+\Gm@layoutheight=\dimen123
+\Gm@layouthoffset=\dimen124
+\Gm@layoutvoffset=\dimen125
 \Gm@dimlist=\toks19
-)
-(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
-
-(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 67.
-\captionmargin=\dimen118
-\captionmargin@=\dimen119
-\captionwidth=\dimen120
-\caption@tempdima=\dimen121
-\caption@indent=\dimen122
-\caption@parindent=\dimen123
-\caption@hangindent=\dimen124
-)
-\c@ContinuedFloat=\count100
-Package caption Info: listings package is loaded.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
@@ -528,31 +544,31 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (./documentation.aux)
 \openout1 = `documentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count101
-\scratchdimen=\dimen125
+\scratchcounter=\count108
+\scratchdimen=\dimen126
 \scratchbox=\box30
-\nofMPsegments=\count102
-\nofMParguments=\count103
+\nofMPsegments=\count109
+\nofMParguments=\count110
 \everyMPshowfont=\toks20
-\MPscratchCnt=\count104
-\MPscratchDim=\dimen126
-\MPnumerator=\count105
-\makeMPintoPDFobject=\count106
+\MPscratchCnt=\count111
+\MPscratchDim=\dimen127
+\MPnumerator=\count112
+\makeMPintoPDFobject=\count113
 \everyMPtoPDFconversion=\toks21
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -601,7 +617,11 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box31
-\c@lstlisting=\count107
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\c@lstlisting=\count114
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -637,12 +657,10 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: End \AtBeginDocument code.
 <documentation-frn.pdf, id=1, 597.50829pt x 845.0471pt>
 File: documentation-frn.pdf Graphic file (type pdf)
 <use documentation-frn.pdf>
-Package pdftex.def Info: documentation-frn.pdf  used on input line 18.
+Package pdftex.def Info: documentation-frn.pdf  used on input line 19.
 (pdftex.def)             Requested size: 597.50682pt x 845.04504pt.
 [1
 
@@ -657,45 +675,80 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout4 = `documentation.toc'.
 
  [1]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 48.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 49.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 56.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 57.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 56.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 57.
  [1
 
-]
-(./documentation.aux) ) 
+] [2]
+<images/randomForest.png, id=44, 462.528pt x 346.896pt>
+File: images/randomForest.png Graphic file (type png)
+<use images/randomForest.png>
+Package pdftex.def Info: images/randomForest.png  used on input line 138.
+(pdftex.def)             Requested size: 190.82585pt x 143.12282pt.
+<images/gaussian.png, id=46, 462.528pt x 346.896pt>
+File: images/gaussian.png Graphic file (type png)
+<use images/gaussian.png>
+Package pdftex.def Info: images/gaussian.png  used on input line 140.
+(pdftex.def)             Requested size: 190.82585pt x 143.12282pt.
+<images/svc.png, id=47, 462.528pt x 346.896pt>
+File: images/svc.png Graphic file (type png)
+<use images/svc.png>
+Package pdftex.def Info: images/svc.png  used on input line 142.
+(pdftex.def)             Requested size: 190.82585pt x 143.12282pt.
+<images/decisionTree.png, id=48, 462.528pt x 346.896pt>
+File: images/decisionTree.png Graphic file (type png)
+<use images/decisionTree.png>
+Package pdftex.def Info: images/decisionTree.png  used on input line 144.
+(pdftex.def)             Requested size: 190.82585pt x 143.12282pt.
+<images/knn.png, id=49, 462.528pt x 346.896pt>
+File: images/knn.png Graphic file (type png)
+<use images/knn.png>
+Package pdftex.def Info: images/knn.png  used on input line 146.
+(pdftex.def)             Requested size: 190.82585pt x 143.12282pt.
+<images/adaBoost.png, id=50, 462.528pt x 346.896pt>
+File: images/adaBoost.png Graphic file (type png)
+<use images/adaBoost.png>
+Package pdftex.def Info: images/adaBoost.png  used on input line 148.
+(pdftex.def)             Requested size: 190.82585pt x 143.12282pt.
+ [3] [4 <./images/randomForest.png> <./images/gaussian.png> <./images/svc.png> 
+<./images/decisionTree.png> <./images/knn.png> <./images/adaBoost.png>] (./docu
+mentation.aux) ) 
 Here is how much of TeX's memory you used:
- 6884 strings out of 494333
- 100694 string characters out of 6164079
- 195953 words of memory out of 5000000
- 10136 multiletter control sequences out of 15000+600000
- 9261 words of font info for 22 fonts, out of 8000000 for 9000
+ 7069 strings out of 494333
+ 103749 string characters out of 6164079
+ 196905 words of memory out of 5000000
+ 10304 multiletter control sequences out of 15000+600000
+ 13028 words of font info for 27 fonts, out of 8000000 for 9000
  350 hyphenation exceptions out of 8191
- 51i,10n,46p,280b,234s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jkn
-appen/ec/ectt1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jk
-nappen/ec/ecti1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/j
-knappen/ec/ecbx1200.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/
-jknappen/ec/ecrm1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour
-/jknappen/ec/ecbx1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfou
-r/jknappen/ec/ecbx1440.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
-fb>
-Output written on documentation.pdf (3 pages, 133763 bytes).
+ 51i,10n,49p,280b,408s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/e
+c/ecbx0900.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/
+ec/ecti0800.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen
+/ec/ecbx0800.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jknappe
+n/ec/ectt1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jknapp
+en/ec/ecti1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jknap
+pen/ec/ecbx1200.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jkna
+ppen/ec/ecrm1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecbx1000.600pk> </home/alice/.texlive2017/texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecbx1440.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on documentation.pdf (6 pages, 293445 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 52 compressed objects within 1 object stream
+ 381 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import nltk
 import numpy as np
 import pandas as pd
+import stemming
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
@@ -14,7 +15,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
 from sklearn import tree
 from sklearn import metrics
-
 
 dataset = pd.read_csv("dataset.csv",sep='\t',names=['tweets','target'])
 #print(dataset.head(10))
@@ -28,15 +28,8 @@ print("class 2 len: " + str(len(dataset[dataset.target == 2])) + '\n')
 X_train, X_test, y_train, y_test = train_test_split(dataset.tweets, dataset.target, test_size=0.3)
 
 
-# ridefinition of CountVectorizer with stemming function
-italian_stemmer = SnowballStemmer('italian')
-class StemmedCountVectorizer(CountVectorizer):
-    def build_analyzer(self):
-        analyzer = super(StemmedCountVectorizer, self).build_analyzer()
-        return lambda doc: ([italian_stemmer.stem(w) for w in analyzer(doc)])
-
 #counting the word occurrences 
-count_vect = StemmedCountVectorizer(min_df=2, analyzer="word", stop_words = set(stopwords.words('italian')))
+count_vect = stemming.StemmedCountVectorizer(min_df=2, analyzer="word", stop_words = set(stopwords.words('italian')))
 #count_vect = CountVectorizer(stop_words=stopwords,analyzer=stemming,min_df=2)
 X_train_counts = count_vect.fit_transform(X_train)
 #extracted tokens

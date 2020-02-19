@@ -4,6 +4,7 @@
 \usepackage[english]{babel}
 \usepackage{frontespizio}
 \usepackage{graphicx}
+\usepackage{subfig}
 \usepackage{listings}
 \usepackage{scrextend}
 \usepackage[margin=1.2in]{geometry}
@@ -59,10 +60,10 @@ Examples:
 Moreover we added to the dataset some posts randomly downloaded, not related to any weather phenomenons (without specifying any keywords).
 
 \subsection{Prepare the dataset}
-After collectioning the tweets (894), we assigned each of them to a class, in order to prepare the dataset, thanks to which we can build some classifiers.\\
+After collectioning the tweets (902), we assigned each of them to a class, in order to prepare the dataset, thanks to which we can build some classifiers.\\
 We decided to map tweets in 3 classes:
 \begin{itemize}
-\item 0 -> the tweet is not related to a weather condition (368)
+\item 0 -> the tweet is not related to a weather condition (376)
 \item 1 -> the tweet is about rain or some weather condition not dangerous (224)
 \item 2 -> the tweet is about some dangerous situation caused by the rain (302)
 \end{itemize}
@@ -79,62 +80,75 @@ After preprocessing phase we follow the standard steps to manage text:
 \item classification and evaluation
 \end{itemize}
 
-\subsection{TOKENIZATION AND STEMMING}
-    After stratified splitting the dataset in tranining and test set, we tokenize each tweet and we apply an italian stemming filter, in order to find more general words.
-    
-        italian_stemmer = SnowballStemmer('italian')
-        class StemmedCountVectorizer(CountVectorizer):
-            def build_analyzer(self):
-                analyzer = super(StemmedCountVectorizer, self).build_analyzer()
-                return lambda doc: ([italian_stemmer.stem(w) for w in analyzer(doc)])
+\subsection{Tokenization and stemming}
+After stratified splitting the dataset in tranining and test set, we tokenize each tweet and we apply an italian stemming filter, in order to find more general words.
+\begin{verbatim}
+   italian_stemmer = SnowballStemmer('italian')
+   class StemmedCountVectorizer(CountVectorizer):
+      def build_analyzer(self):
+         analyzer = super(StemmedCountVectorizer, self).build_analyzer()
+         return lambda doc: ([italian_stemmer.stem(w) for w in analyzer(doc)])
+\end{verbatim}
 
-                
-                
-2_ FIND RELEVANT STEMS
-    All the stems are united in one vector and are weighted using the IDF index (Inverse Document Frequency)
-    Then, each training tweet is represented as a vector of features, dimension equal to the number of stems, and the i-th feature is
-    calculated as the frequency of the i-th stem in the tweet per the weight of that stem.
+\subsection{Find relevant stems}
+All the stems are united in one vector and are weighted using the IDF index (Inverse Document Frequency).\\
+Then, each training tweet is represented as a vector of features, dimension equal to the number of stems, and the i-th feature is calculated as the frequency of the i-th stem in the tweet per the weight of that stem.\\
+Finally each stem is evaluated by the Information Gain (IG) value between the corresponding feature and the possible class labels:
+\begin{verbatim}
+   IG(C, Sq) = H(C) - H(C|Sq)
+\end{verbatim}
+where Sq is the feature corresponding to stem sq, $H(C)$ is the entropy of $C$, and $H(C|Sq)$ is the entropy of $C$ after the observation of the feature $Sq$.\\
+Then, the stems are ranked in descending order and $F$ stems, with $F \leq Q$, are selected among these.
+\begin{verbatim}
+   tfidf_transformer = TfidfTransformer(smooth_idf=True,use_idf=True)
+   X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+\end{verbatim}
 
-    Finally each stem is evaluated by the Information Gain (IG) value between the corresponding feature and the possible class labels:
-        IG(C, Sq) = H(C) − H(C|Sq)
-    where Sq is the feature corresponding to stem sq, H(C) is the entropy of C, and H(C|Sq ) is the entropy of C after the observation 
-    of the feature Sq.
-    Then, the stems are ranked in descending order and F stems, with F ≤ Q, are selected among these.
-    
-        tfidf_transformer = TfidfTransformer(smooth_idf=True,use_idf=True)# include calculation of TFs (frequencies) 
-        X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
-        
-        
-3_ CLASSIFICATION
-    After the tfidf_transformer fitting phase we use it to trasnform the test set and we build and test different classifiers and compute different metrics to compare them (accurancy, f-score, confusion-matrix):
-    
-    - DecisionTreeClassifier
-        
-        < SCREEN >
+\subsection{Classification}
+After the tfidf\_transformer fitting phase we use it to trasnform the test set and we build and test different classifiers and compute different metrics to compare them (accurancy, f-score, confusion-matrix):
+\begin{verbatim}
+Random Forest:
+accuracy : 0.8376383763837638
+f_score : 0.8169722687103137
 
-    - GaussianNB
-        
-        < SCREEN >
+NB:
+accuracy : 0.7822878228782287
+f_score : 0.7217817028974173
 
-    - SVC 
-        
-        < SCREEN >
+SVM:
+accuracy : 0.7970479704797048
+f_score : 0.7676179382644147
 
-    - RandomForestClassifier
-    
-        < SCREEN >
+Decision Tree:
+accuracy : 0.8191881918819188
+f_score : 0.8005383709471964
 
-    - AdaBoostClassifier
-        
-        < SCREEN >
+k-NN:
+accuracy : 0.5276752767527675
+f_score : 0.38181323539413725
 
-    - KNeighborsClassifier
-        
-        < SCREEN >
-        
+Adaboost:
+accuracy : 0.7712177121771218
+f_score : 0.7538220246286299
+\end{verbatim}
 
-
-
+\begin{figure}[b]
+\centering
+\subfloat[][\emph{Random Forest}]
+{\includegraphics[width=0.45\textwidth]{images/randomForest}}
+\subfloat[][\emph{Naive-Bayes}]
+{\includegraphics[width=0.45\textwidth]{images/gaussian}} \\
+\subfloat[][\emph{SVM}]
+{\includegraphics[width=0.45\textwidth]{images/svc}}
+\subfloat[][\emph{Decision Tree}]
+{\includegraphics[width=0.45\textwidth]{images/decisionTree}} \\
+\subfloat[][\emph{k Nearest Neighbors}]
+{\includegraphics[width=0.45\textwidth]{images/knn}}
+\subfloat[][\emph{Adaboost}]
+{\includegraphics[width=0.45\textwidth]{images/adaBoost}} \\
+\caption{}
+\label{fig:confusion_matrices}
+\end{figure}
 
 
 

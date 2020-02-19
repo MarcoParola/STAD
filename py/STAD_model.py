@@ -15,13 +15,13 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 import joblib
-import StemmedCountVectorizer
+import stemming
 
 dataset = pd.read_csv("dataset.csv",sep='\t',names=['tweets','target'])
 
 
 clf = Pipeline([
-    ('vect', StemmedCountVectorizer.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
+    ('vect', stemming.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
     ('tfidf', TfidfTransformer(smooth_idf=True,use_idf=True)),
     ('clf', svm.LinearSVC()),
 ])

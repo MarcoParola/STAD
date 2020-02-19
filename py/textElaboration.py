@@ -16,23 +16,16 @@ from sklearn.pipeline import Pipeline
 from sklearn import svm
 from sklearn import tree
 from sklearn import metrics
-
+import stemming
 
 dataset = pd.read_csv("fileFeatures1.csv",sep='\t',names=['tweets','target'])
 folds = 10
 
 #DEFINISCI UNA PIPELINE DI FILTRI
-# ridefinition of CountVectorizer with stemming function
-italian_stemmer = SnowballStemmer('italian')
-class StemmedCountVectorizer(CountVectorizer):
-    def build_analyzer(self):
-        analyzer = super(StemmedCountVectorizer, self).build_analyzer()
-        return lambda doc: ([italian_stemmer.stem(w) for w in analyzer(doc)])
-
 
 #Pipeline Classifier1
 text_clf = Pipeline([
-    ('vect', StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
+    ('vect', stemming.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
     ('tfidf', TfidfTransformer(smooth_idf=True,use_idf=True)),
     ('clf', MultinomialNB()),
 ])
@@ -44,7 +37,7 @@ print("Accuracy MultinomialNB : %0.2f (+/- %0.2f)" % (scores.mean(), scores.std(
 
 #Pipeline Classifier2
 text_clf2 = Pipeline([
-    ('vect', StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
+    ('vect', stemming.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
     ('tfidf', TfidfTransformer(smooth_idf=True,use_idf=True)),
     ('clf', tree.DecisionTreeClassifier()),
 ])
@@ -57,7 +50,7 @@ print("Accuracy Decision Tree : %0.2f (+/- %0.2f)" % (scores2.mean(), scores2.st
 text_clf3 = Pipeline([
     #('stopItalianWords', NOME_DEL_FILTRO),
     #('stopUrl', NOME_DEL_FILTRO),
-    ('vect', StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
+    ('vect', stemming.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
     ('tfidf', TfidfTransformer(smooth_idf=True,use_idf=True)),
     ('clf', svm.LinearSVC()),
 ])
@@ -69,7 +62,7 @@ print("Accuracy SVM : %0.2f (+/- %0.2f)" % (scores3.mean(), scores3.std() * 2))
 
 #Pipeline Classifier4
 text_clf4 = Pipeline([
-    ('vect', StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
+    ('vect', stemming.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
     ('tfidf', TfidfTransformer(smooth_idf=True,use_idf=True)),
     ('clf', KNeighborsClassifier(5)),
 ])
@@ -81,7 +74,7 @@ print("Accuracy k-NN : %0.2f (+/- %0.2f)" % (scores4.mean(), scores4.std() * 2))
 
 #Pipeline Classifier5
 text_clf5 = Pipeline([
-    ('vect', StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
+    ('vect', stemming.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
     ('tfidf', TfidfTransformer(smooth_idf=True,use_idf=True)),
     ('clf', AdaBoostClassifier()),
 ])
@@ -93,7 +86,7 @@ print("Accuracy Adaboost : %0.2f (+/- %0.2f)" % (scores5.mean(), scores5.std() *
 
 #Pipeline Classifier6
 text_clf6 = Pipeline([
-    ('vect', StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
+    ('vect', stemming.StemmedCountVectorizer(analyzer='word',stop_words=set(stopwords.words('italian')))),
     ('tfidf', TfidfTransformer(smooth_idf=True,use_idf=True)),
     ('clf', RandomForestClassifier()),
 ])
