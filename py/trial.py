@@ -16,7 +16,7 @@ from sklearn import tree
 from sklearn import metrics
 
 
-dataset = pd.read_csv("fileFeatures1.csv",sep='\t',names=['tweets','target'])
+dataset = pd.read_csv("dataset.csv",sep='\t',names=['tweets','target'])
 #print(dataset.head(10))
 print("dataset len: " + str(len(dataset)))
 print("class 0 len: " + str(len(dataset[dataset.target == 0])))
@@ -88,6 +88,13 @@ def evaluate_classifier(clf):
 	disp.ax_.set_title('Confusion Matrix')
 	plt.show()
 
+
+# --------------- RANDOM FOREST ---------------
+#Training the sixth classifier
+clf6 = RandomForestClassifier()
+print('Random Forest:')
+evaluate_classifier(clf6)
+
 # --------------- BAYESS ---------------
 #Training the first classifier
 #clf = GaussianNB().fit(X_train_tfidf, y_train)
@@ -97,7 +104,7 @@ evaluate_classifier(clf)
 
 # --------------- SVC ---------------
 #Training the second classifier
-clf2 = svm.LinearSVC()
+clf2 = svm.SVC()
 print('SVM:')
 evaluate_classifier(clf2)
 
@@ -120,9 +127,4 @@ clf5 = AdaBoostClassifier()
 print('Adaboost:')
 evaluate_classifier(clf5)
 
-# --------------- RANDOM FOREST ---------------
-#Training the sixth classifier
-clf6 = RandomForestClassifier()
-print('Random Forest:')
-evaluate_classifier(clf6)
 
