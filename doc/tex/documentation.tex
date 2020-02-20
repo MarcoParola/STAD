@@ -61,7 +61,7 @@ Moreover we added to the dataset some posts randomly downloaded, not related to 
 
 \subsection{Prepare the dataset}
 After collectioning the tweets (902), we assigned each of them to a class, in order to prepare the dataset, thanks to which we can build some classifiers.\\
-We decided to map tweets in 3 classes:
+We decided to map the tweets in 3 classes:
 \begin{itemize}
 \item 0 -> the tweet is not related to a weather condition (376)
 \item 1 -> the tweet is about rain or some weather condition not dangerous (224)
@@ -69,18 +69,20 @@ We decided to map tweets in 3 classes:
 \end{itemize}
 
 \section{Preprocessing}
-In this phase, we delete some tweets, in order to manage only the italian tweets.\\
-Moreover we clean the text of each tweet removing eventual URLs.
+In this phase, we first extract from the \textit{csv} file, created by \emph{twint}, just the tweets' texts, discarding all the meta-information associated with them (id, user, etc.).\\
+Then we delete some tweets, in order to manage only the italian tweets. The deleting is made using the \textit{guess\_language} package.\\
+Finally, we clean the text of each tweet removing eventual URLs: to do so, we use a Regular Expression filter.
 
-\section{Text Elaboration}
-After preprocessing phase we follow the standard steps to manage text:
+\section{Supervised learning stage}
+%\section{Text Elaboration}
+After the preprocessing phase, we follow the standard steps to build our classification model, managing the tweets' texts:
 \begin{itemize}
-\item tokenization and stemming
-\item words selection by tf-idf
+\item tokenization, stop-word filtering and stemming
+\item stem filtering by relevant stems, selected by the tf-idf computation
 \item classification and evaluation
 \end{itemize}
 
-\subsection{Tokenization and stemming}
+\subsection{Tokenization, stop-word filtering and stemming}
 After stratified splitting the dataset in tranining and test set, we tokenize each tweet and we apply an italian stemming filter, in order to find more general words.
 \begin{verbatim}
    italian_stemmer = SnowballStemmer('italian')
@@ -90,22 +92,22 @@ After stratified splitting the dataset in tranining and test set, we tokenize ea
          return lambda doc: ([italian_stemmer.stem(w) for w in analyzer(doc)])
 \end{verbatim}
 
-\subsection{Find relevant stems}
+\subsection{Stem filtering by relevant stems}
 All the stems are united in one vector and are weighted using the IDF index (Inverse Document Frequency).\\
 Then, each training tweet is represented as a vector of features, dimension equal to the number of stems, and the i-th feature is calculated as the frequency of the i-th stem in the tweet per the weight of that stem.\\
 Finally each stem is evaluated by the Information Gain (IG) value between the corresponding feature and the possible class labels:
 \begin{verbatim}
    IG(C, Sq) = H(C) - H(C|Sq)
 \end{verbatim}
-where Sq is the feature corresponding to stem sq, $H(C)$ is the entropy of $C$, and $H(C|Sq)$ is the entropy of $C$ after the observation of the feature $Sq$.\\
+where $Sq$ is the feature corresponding to the stem $s_q$, $H(C)$ is the entropy of $C$, and $H(C|Sq)$ is the entropy of $C$ after the observation of the feature $Sq$.\\
 Then, the stems are ranked in descending order and $F$ stems, with $F \leq Q$, are selected among these.
 \begin{verbatim}
    tfidf_transformer = TfidfTransformer(smooth_idf=True,use_idf=True)
    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 \end{verbatim}
 
-\subsection{Classification}
-After the tfidf\_transformer fitting phase we use it to trasnform the test set and we build and test different classifiers and compute different metrics to compare them (accurancy, f-score, confusion-matrix):
+\subsection{Classification and evaluation}
+After the tfidf\_transformer fitting phase, we use it to transform the test set and we build and test different classifiers and compute different metrics to compare them (accurancy, f-score, confusion-matrix):
 \begin{verbatim}
 Random Forest:
 accuracy : 0.8376383763837638
@@ -142,7 +144,7 @@ f_score : 0.7538220246286299
 {\includegraphics[width=0.45\textwidth]{images/svc}}
 \subfloat[][\emph{Decision Tree}]
 {\includegraphics[width=0.45\textwidth]{images/decisionTree}} \\
-\subfloat[][\emph{k Nearest Neighbors}]
+\subfloat[][\emph{k Nearest Neighbors (k = 5)00}]
 {\includegraphics[width=0.45\textwidth]{images/knn}}
 \subfloat[][\emph{Adaboost}]
 {\includegraphics[width=0.45\textwidth]{images/adaBoost}} \\
@@ -150,7 +152,23 @@ f_score : 0.7538220246286299
 \label{fig:confusion_matrices}
 \end{figure}
 
+\subsection{Cross-validation}
+We try to evaluate all the previous phases of elaboration and supervised learning, based on our dataset, with the method of cross-validation. Using 10 folds, these are our results for each classifier involved:
 
+\begin{verbatim}
+Accuracy MultinomialNB : 0.75 (+/- 0.10)
+Accuracy Decision Tree : 0.77 (+/- 0.22)
+Accuracy SVM : 0.80 (+/- 0.16)
+Accuracy k-NN : 0.68 (+/- 0.17)
+Accuracy Adaboost : 0.72 (+/- 0.22)
+Accuracy Random Forest : 0.81 (+/- 0.21)
+\end{verbatim}
 
+\section{Experimental results}
+We select some significant events of strong weather condition, involving rain and flooding, happened in Italy during the past years. We collect the tweets posted on the social network during the hours of each event and then we pass these data to our new constructed model. The selected events are:
+\begin{itemize}
+\item 
+\item
+\end{itemize}
 
 \end{document}
