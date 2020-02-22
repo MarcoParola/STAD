@@ -109,42 +109,43 @@ Then, the stems are ranked in descending order and $F$ stems, with $F \leq Q$, a
 \subsection{Classification and evaluation}
 After the tfidf\_transformer fitting phase, we use it to transform the test set and we build and test different classifiers and compute different metrics to compare them (accurancy, f-score, confusion-matrix):
 \begin{verbatim}
-Random Forest:
-accuracy : 0.8376383763837638
-f_score : 0.8169722687103137
-
-NB:
+Multinomial NB:
 accuracy : 0.7822878228782287
 f_score : 0.7217817028974173
 
-SVM:
-accuracy : 0.7970479704797048
-f_score : 0.7676179382644147
 
 Decision Tree:
 accuracy : 0.8191881918819188
 f_score : 0.8005383709471964
 
-k-NN:
+SVM:
+accuracy : 0.7970479704797048
+f_score : 0.7676179382644147
+
+k-NN (k=5):
 accuracy : 0.5276752767527675
 f_score : 0.38181323539413725
 
 Adaboost:
 accuracy : 0.7712177121771218
 f_score : 0.7538220246286299
+
+Random Forest:
+accuracy : 0.8376383763837638
+f_score : 0.8169722687103137
 \end{verbatim}
 
 \begin{figure}[b]
 \centering
 \subfloat[][\emph{Random Forest}]
 {\includegraphics[width=0.45\textwidth]{images/randomForest}}
-\subfloat[][\emph{Naive-Bayes}]
+\subfloat[][\emph{Multinomial Naive-Bayes}]
 {\includegraphics[width=0.45\textwidth]{images/gaussian}} \\
 \subfloat[][\emph{SVM}]
 {\includegraphics[width=0.45\textwidth]{images/svc}}
 \subfloat[][\emph{Decision Tree}]
 {\includegraphics[width=0.45\textwidth]{images/decisionTree}} \\
-\subfloat[][\emph{k Nearest Neighbors (k = 5)00}]
+\subfloat[][\emph{k Nearest Neighbors (k = 5)}]
 {\includegraphics[width=0.45\textwidth]{images/knn}}
 \subfloat[][\emph{Adaboost}]
 {\includegraphics[width=0.45\textwidth]{images/adaBoost}} \\
@@ -154,7 +155,6 @@ f_score : 0.7538220246286299
 
 \subsection{Cross-validation}
 We try to evaluate all the previous phases of elaboration and supervised learning, based on our dataset, with the method of cross-validation. Using 10 folds, these are our results for each classifier involved:
-
 \begin{verbatim}
 Accuracy MultinomialNB : 0.75 (+/- 0.10)
 Accuracy Decision Tree : 0.77 (+/- 0.22)
@@ -164,11 +164,26 @@ Accuracy Adaboost : 0.72 (+/- 0.22)
 Accuracy Random Forest : 0.81 (+/- 0.21)
 \end{verbatim}
 
+Given the results obtained both in single evaluation and in cross-validation, we conclude that the SVM classifier is the best for our application. Indeed, it has the higher accuracy, second just to the Random Forest's one. Moreover, this last algorithm has larger confidence intervals ($\pm 2std$) than the SVM, that is to prefer. 
+
 \section{Experimental results}
-We select some significant events of strong weather condition, involving rain and flooding, happened in Italy during the past years. We collect the tweets posted on the social network during the hours of each event and then we pass these data to our new constructed model. The selected events are:
+We select some significant events of strong weather conditions, involving rain and flooding, happened in Italy during the past years. We collect the tweets posted on the social network during the hours of each event and then we pass these data to our new constructed model. The selected events are:
 \begin{itemize}
-\item 
-\item
+\item flood in Casteldaccia, province of Palermo, 2018-11-03
+\begin{verbatim}
+twint -g="38.1405227,13.2870764,50km" --since 2018-11-02 --until 2018-11-05 
+-o palermo2018.csv --csv
+\end{verbatim}
+\item flood in Piemonte, 2016-11-21/25
+\begin{verbatim}
+twint -g="45.0704900,7.6868200,50km" --since 2016-11-23 --until 2016-11-26 
+-o piemonte2016.csv --csv
+\end{verbatim}
 \end{itemize}
+Then, we select also a day with no significant weather conditions, and we apply the model on the data retrieved also from that day:
+\begin{verbatim}
+twint --near Pisa --since 2020-02-21 --until 2020-02-22 -o pisa2020.csv --csv
+\end{verbatim}
+
 
 \end{document}

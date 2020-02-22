@@ -33,7 +33,7 @@ text_clf = Pipeline([
 #calculating accuracies in cross-valudation
 scores = cross_val_score(text_clf, dataset.tweets, dataset.target, cv=folds)
 print("Accuracy MultinomialNB : %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
-
+print(scores)
 
 #Pipeline Classifier2
 text_clf2 = Pipeline([
