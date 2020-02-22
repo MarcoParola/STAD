@@ -18,7 +18,7 @@ from sklearn import tree
 from sklearn import metrics
 import stemming
 
-dataset = pd.read_csv("fileFeatures1.csv",sep='\t',names=['tweets','target'])
+dataset = pd.read_csv("dataset.csv",sep='\t',names=['tweets','target'])
 folds = 10
 
 #DEFINISCI UNA PIPELINE DI FILTRI
@@ -45,6 +45,7 @@ text_clf2 = Pipeline([
 #calculating accuracies in cross-valudation
 scores2 = cross_val_score(text_clf2, dataset.tweets, dataset.target, cv=folds)
 print("Accuracy Decision Tree : %0.2f (+/- %0.2f)" % (scores2.mean(), scores2.std() * 2))
+
 
 #Pipeline Classifier3
 text_clf3 = Pipeline([

@@ -10,9 +10,7 @@ import sys
 from guess_language import guess_language
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, RegexpTokenizer, TreebankWordTokenizer
-from nltk.stem import SnowballStemmer
 from scipy.stats import entropy
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.feature_selection import mutual_info_classif
 
 
@@ -30,8 +28,6 @@ def isItalian(string):
 """
 Function that returns an array with all the stems of the twitter in the file file_name
 """
-
-
 def preProcessing(file_name):
 	
 	with open(file_name, 'r', encoding='utf-8',) as csvtwitter, open("fileFeatures1.csv", "w") as fileOut:
@@ -54,7 +50,6 @@ def preProcessing(file_name):
 					
 					#writer.writerow(row)
 	
-				
 	fileOut.close()
 	
 """

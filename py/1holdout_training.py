@@ -90,14 +90,13 @@ evaluate_classifier(clf6)
 
 # --------------- BAYESS ---------------
 #Training the first classifier
-#clf = GaussianNB().fit(X_train_tfidf, y_train)
 clf = MultinomialNB()
-print('NB:')
+print('Multinomial NB:')
 evaluate_classifier(clf)
 
 # --------------- SVC ---------------
 #Training the second classifier
-clf2 = svm.SVC()
+clf2 = svm.LinearSVC()
 print('SVM:')
 evaluate_classifier(clf2)
 
@@ -111,7 +110,7 @@ evaluate_classifier(clf3)
 #Training the forth classifier
 k_neighbor = 5
 clf4 = KNeighborsClassifier(k_neighbor)
-print('k-NN:')
+print('k-NN (k = ' + str(k_neighbor) + ') :')
 evaluate_classifier(clf4)
 
 # --------------- ADABOOST ---------------
