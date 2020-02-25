@@ -1,0 +1,74 @@
+# ALLUVIONI: https://it.wikipedia.org/wiki/Alluvioni_e_inondazioni_in_Italia
+
+2019-11-23/24 Alessandria, Savona, Genova:
+twint -g="44.649075,8.648773,50km" --since 2019-11-22 --until 2019-11-26 -o liguria2019.csv --csv
+
+2019-11-12 Matera:
+twint -g="40.6646012,16.5650235,50km" --since 2019-11-11 --until 2019-11-14 -o matera2019.csv --csv
+
+2019-10-21/22 Alessandria, Genova:
+twint -g="44.649075,8.648773,50km" --since 2019-10-20 --until 2019-10-24 -o alessGenova2019.csv --csv
+
+2018-11-03 Palermo:
+twint -g="38.1405227,13.2870764,50km" --since 2018-11-02 --until 2018-11-05 -o palermo2018.csv --csv
+
+Casteldaccia:
+twint -g="38.0449165,13.5129324,25km" --since 2018-11-03 --until 2018-11-04 -o ./STAD/data/tmp/casteldaccia2018.csv --csv
+twint -g="38.0449165,13.5129324,25km" --since 2018-11-02 --until 2018-11-04 -o ./STAD/data/tmp/casteldaccia2018_1.csv --csv
+twint -g="38.0449165,13.5129324,25km" --since 2018-11-02 --until 2018-11-05 -o ./STAD/data/tmp/casteldaccia2018_2.csv --csv
+twint -g="38.0449165,13.5129324,25km" --since 2018-10-30 --until 2018-11-05 -o ./STAD/data/tmp/casteldaccia2018_3.csv --csv
+
+2018-10-26/30 Belluno:
+twint -g="46.1426200,12.2156000,50km" --since 2018-10-25 --until 2018-11-31 -o belluno2018.csv --csv
+
+2017-12-12 Reggio Emilia:
+twint -g="44.701608,10.5680563,25km" --since 2017-12-12 --until 2017-12-13 -o ./STAD/data/tmp/reggioemilia2017.csv --csv
+twint -g="44.701608,10.5680563,25km" --since 2017-12-11 --until 2017-12-13 -o ./STAD/data/tmp/reggioemilia2017_1.csv --csv
+twint -g="44.701608,10.5680563,25km" --since 2017-12-11 --until 2017-12-14 -o ./STAD/data/tmp/reggioemilia2017_2.csv --csv
+twint -g="44.701608,10.5680563,25km" --since 2017-12-08 --until 2017-12-14 -o ./STAD/data/tmp/reggioemilia2017_3.csv --csv
+twint -g="44.701608,10.5680563,25km" --since 2017-12-08 --until 2017-12-13 -o ./STAD/data/tmp/reggioemilia20174.csv --csv
+
+2017-09-09/10 Livorno
+twint -g="43.5395284,10.2550719,50km" --since 2017-09-08 --until 2017-09-12 -o livorno2017.csv --csv
+
+2016-11-24 Piemonte:
+twint -g="45.0704900,7.6868200,50km" --since 2016-11-23 --until 2016-11-26 -o piemonte2016.csv --csv
+
+2015-10-31/11-01 Reggio Calabria:
+twint -g="38.0977959,15.5312588,50km" --since 2015-10-30 --until 2015-11-03 -o reggiocalabria2015.csv --csv
+
+2015-10-15 Benevento:
+twint -g="41.1229552,14.7375843,50km" --since 2015-10-14 --until 2015-10-17 -o benevento2015.csv --csv
+
+2015-09-14 Piacenza:
+twint -g="45.0422646,9.6630433,50km" --since 2015-09-14 --until 2015-09-15 -o piacenza2015_1.csv --csv
+twint -g="45.0422646,9.6630433,50km" --since 2015-09-13 --until 2015-09-16 -o piacenza2015.csv --csv
+twint -g="45.0422646,9.6630433,50km" --since 2015-09-10 --until 2015-09-17 -o piacenza2015_2.csv --csv
+
+2010-10-04 Genova:
+twint -g="44.561806,8.595268,30km" --since 2010-10-01 --until 2010-10-06 -o ./STAD/data/tmp/genova2010.csv --csv
+
+2011-11-04 Genova:
+twint -g="44.561806,8.595268,30km" --since 2011-11-01 --until 2011-11-06 -o ./STAD/data/tmp/genova2011.csv --csv
+
+2012-11-11 Massa Carrara:
+twint -g="44.223714,9.6902794,50km" --since 2012-11-08 --until 2012-11-13 -o ./STAD/data/tmp/carrara2012.csv --csv
+
+2013-11-18 Sardegna:
+twint -g="40.9278086,9.4577664,30km" --since 2013-11-15 --until 2013-11-20 -o ./STAD/data/tmp/olbia2013.csv --csv
+
+2014-05-03 Senigallia:
+twint -g="43.7037109,13.1082947,30km" --since 2014-04-30 --until 2014-05-05 -o ./STAD/data/tmp/senigallia2014.csv --csv
+
+# ALTRO SCRAPING (no alluvioni):
+twint -g="41.0496269,7.0022893,600km" --until 2020-01-** -o file.csv --csv
+
+twint --near Pisa --since 2019-08-07 --until 2019-08-08 -o ./STAD/data/tmp/pisa07082019.csv --csv
+twint --near Pisa --since 2019-08-06 --until 2019-08-08 -o ./STAD/data/tmp/pisa07082019_1.csv --csv
+twint --near Pisa --since 2019-08-05 --until 2019-08-08 -o ./STAD/data/tmp/pisa07082019_2.csv --csv
+twint --near Pisa --since 2019-08-04 --until 2019-08-08 -o ./STAD/data/tmp/pisa07082019_3.csv --csv
+
+twint --near Livorno --since 2020-01-08 --until 2020-01-13  -o ./STAD/data/tmp/livorno2.csv --csv
+
+twint --near Firenze --since 2019-07-01 --until 2019-07-06  -o ./STAD/data/tmp/firenze.csv --csv
+
